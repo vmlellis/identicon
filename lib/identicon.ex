@@ -3,9 +3,16 @@ defmodule Identicon do
     input
     |> hash_input
     |> pick_color
+    |> build_grid
   end
 
-  def pick_color(image) do
+  def build_grid(image) do
+    %Identicon.Image{hex: hex} = image
+    hex
+    |> Enum.chunk_every(3, 3, :discard)
+  end
+
+  defp pick_color(image) do
     %Identicon.Image{hex: [r, g, b | _tail]} = image
     %Identicon.Image{image | color: {r, g, b}}
   end
